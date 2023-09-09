@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"></link>
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <h:form id="frmHeadMenu">
+                <div class="card">
+                    <p:growl id="messages"/>
+                    <p:menubar>
+                        <f:facet name="options">
+                            <div class="ui-input-icon-left mr-2">
+                                <p>Bienvenido (a) :  #{session_school.username}</p>
+                            </div>
+                            <p:commandButton id="btn_out_system" icon="pi pi-power-off" style="margin-left: 9px;"
+                                             action="#{session_school.closeSession()}"
+                                             styleClass="rounded-button ui-button-danger">
+                                <p:tooltip for="btn_out_system" value="Salir del sistema" position="bottom"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:menubar>
+                </div><br></br>
+            </h:form>     
+        </ui:composition>
+    </h:body>
+</html>

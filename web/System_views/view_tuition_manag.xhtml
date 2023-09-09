@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Sistema escolar</title>
+        <meta charset="UTF-8" http-equiv="refresh" content="1000"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/customStyle.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    </h:head>
+    <h:body>
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    Gestión de periodos (ciclos) escolares
+                </div>
+                <div class="card-body">
+                    <p:growl id="msg_alert" showDetail="true" />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Registra un periodo nuevo
+                                </div>
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Periodos (Ciclos) registrados
+                                </div>
+                                <div class="card-body">
+                                    <h:form id="tbl_tuition">
+                                        <p:dataTable var="tuition" value="#{tuition_school.listTuitions}"
+                                                     rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
+                                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     emptyMessage="No existe registros" size="small">
+
+                                            <p:column headerText="Periodo" filterBy="#{tuition.to_periods}"
+                                                      filterMatchMode="contains" sortBy="#{tuition.to_periods}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <h:outputText value="#{tuition.to_periods}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Monto" filterBy="#{tuition.amount}"
+                                                      filterMatchMode="contains" sortBy="#{tuition.amount}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <h:outputText value="#{tuition.amount}">
+                                                    <f:convertNumber currencySymbol="$" type="currency" />
+                                                </h:outputText>
+                                            </p:column>
+
+                                            <p:column headerText="Estatus" filterBy="#{tuition.flag_active}"
+                                                      filterMatchMode="contains" sortBy="#{tuition.flag_active}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      styleClass="product-badge status-true"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <div class="alert alert-primary" role="alert"
+                                                     style="display: (#{tuition.flag_active} ? 'block' : 'none')">
+                                                    <h:outputText value="#{tuition.flag_active}"/>
+                                                </div>
+                                                <div class="alert alert-danger" role="alert"
+                                                     style="display: #{tuition.flag_active} != false ? 'block' : 'none'">
+                                                    <h:outputText value="#{tuition.flag_active}"/>
+                                                </div>
+                                            </p:column>
+
+                                            <p:column headerText="opciones"
+                                                      style="width: 25%; font-size: 80%; align-items: center; text-align: center">
+                                                <p:commandButton icon="pi pi-trash" id="btn_rem_tuition"
+                                                                 styleClass="rounded-button ui-button-danger">
+                                                    <p:tooltip for="btn_rem_tuition" value="Eliminar periodo" showEffect="clip" hideEffect="fold"/>
+                                                </p:commandButton>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+    </h:body>
+</html>

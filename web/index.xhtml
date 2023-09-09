@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Sistema escolar</title>
+        <meta charset="UTF-8"></meta>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="css/customStyle.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    </h:head>
+    <h:body>
+        <div class="container" style="margin-top:50px;">
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <div class="card-group mb-0">
+                        <div class="card p-4">
+                            <p:growl id="msg_alert" showDetail="true" />
+                            <h:form id="frm_login_session">
+                                <div class="card-body">
+                                    <div class="input-group mb-4">
+                                        <div class="ui-inputgroup">
+                                            <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                                            <span class="ui-float-label">
+                                                <p:inputText id="float-input" value="#{session_school.username}"/>
+                                                <p:outputLabel for="@previous" value="Nombre de usuario" style="width: 100%;"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-4">
+                                        <div class="ui-inputgroup">
+                                            <div class="ui-inputgroup-addon"><i class="pi pi-key"></i></div>
+                                            <span class="ui-float-label">
+                                                <p:password id="float-input2" value="#{session_school.password}"/>
+                                                <p:outputLabel for="@previous" value="Contraseña"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                        </div>
+                                        <div class="col-7">
+                                            <p:commandButton value="Iniciar sesión" icon="pi pi-sign-in" update=":msg_alert"
+                                                             action="#{session_school.startSessionApplication()}"
+                                                             styleClass="ui-button-raised rounded-button ui-button-info" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                        <div class="card text-white bg-success py-5 d-md-down-none" style="width:50%">
+                            <div class="card-body text-center">
+                                <div>
+                                    <h2>Bienvenido</h2>
+                                    <p>Sistema para gestión escolar</p>
+                                    <h:form id="frm_btn_first_user">
+                                        <p:commandButton value="Registrar" icon="pi pi-user-plus" update=":msg_alert"
+                                                         onclick="$('#mdlFirstUser').modal('show');"
+                                                         rendered="#{san_sebastian.listUser.size() == 0}"
+                                                         styleClass="ui-button-raised ui-button-help" />
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.js"></script>
+    </h:body>
+</html>

@@ -1,0 +1,185 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <div class="modal fade" id="mdl_assi_tea_gra_gro" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h:form id="frm_head_tea_gra_gro">
+                            Profesores asignados al grado / grupo : <strong>#{grade_group_subject_school.grade_group_aux.to_desc}</strong>
+                            <p:commandButton icon="pi pi-times" style="float: right;"
+                                             onclick="$('#mdl_assi_tea_gra_gro').modal('hide');"
+                                             styleClass="rounded-button ui-button-danger"/>
+                        </h:form>
+                    </div>
+                    <div class="card-body">
+                        <p:messages id="msg_assign_gg_t" showDetail="true" closable="true"></p:messages>
+                        <h:form id="tbl_assi_tea_gra_gro">
+                            <p:dataTable var="assi_teacher" value="#{grade_group_subject_school.listGradeGroupTeacher}"
+                                         rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         emptyMessage="No existen profesores asignados" size="small">
+
+                                <p:column headerText="Profesor" filterBy="#{assi_teacher.complete_name}"
+                                          filterMatchMode="contains" sortBy="#{assi_teacher.complete_name}"
+                                          filterStyle="height: 30px; font-size: 90%;"
+                                          style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                    <h:outputText value="#{assi_teacher.complete_name}"/>
+                                </p:column>
+
+                                <p:column headerText="Correo" filterBy="#{assi_teacher.email}"
+                                          filterMatchMode="contains" sortBy="#{assi_teacher.email}"
+                                          filterStyle="height: 30px; font-size: 90%;"
+                                          style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                    <h:outputText value="#{assi_teacher.email}"/>
+                                </p:column>
+
+                                <p:column headerText="Teléfono" filterBy="#{assi_teacher.phone_number}"
+                                          filterMatchMode="contains" sortBy="#{assi_teacher.phone_number}"
+                                          filterStyle="height: 30px; font-size: 90%;"
+                                          style="width: 10%; font-size: 80%; align-items: center; text-align: center">
+                                    <h:outputText value="#{assi_teacher.phone_number}"/>
+                                </p:column>
+
+                                <p:column headerText="opc"
+                                          style="width: 8%; font-size: 80%; align-items: center; text-align: center">
+                                    <p:commandButton icon="pi pi-trash" id="btn_rem_tea_assi_gra_gro"
+                                                     update=":frm_rem_assi_tea_gra_gro"
+                                                     oncomplete="$('#mdl_conf_rem_assi_tea_gra_gro').modal('show');"
+                                                     actionListener="#{grade_group_subject_school.assignTeacherGraGro(assi_teacher)}"
+                                                     styleClass="rounded-button ui-button-danger">
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdl_confirm_upd_subject" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h:form>
+                            Actualizar información de la materia / asignatura
+                            <p:commandButton icon="pi pi-times" style="float: right;"
+                                             onclick="$('#mdl_confirm_upd_subject').modal('hide');"
+                                             styleClass="rounded-button ui-button-danger"/>
+                        </h:form>
+                    </div>
+                    <div class="card-body">
+                        <h:form id="frm_upd_subject">
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Ingresa el nombre de la materia</label>
+                                <p:inputText style="width: 100%;"
+                                             value="#{grade_group_subject_school.subject_aux.subject_name}"/>
+                            </div><br></br>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Asigne un grado / grupo</label><br></br>
+                                <h:selectOneMenu value="#{grade_group_subject_school.subject_aux.id_grade_group}"
+                                                 class="form-control" tabindex="2" style="text-align: center;">
+                                    <f:selectItems value="#{grade_group_subject_school.listGradeGroup}" var="gg"
+                                                   itemLabel="#{gg.to_desc}" itemValue="#{gg.id_grade_group}"/>
+                                </h:selectOneMenu>
+                            </div><br></br>
+
+
+                            <div class="modal-footer">
+                                <p:commandButton value="Actualizar" icon="pi pi-save"
+                                                 update=":tbl_subject :msg_alert"
+                                                 oncomplete="setTimeout(function() { $('#mdl_confirm_upd_subject').modal('hide'); }, 200);"
+                                                 actionListener="#{grade_group_subject_school.updSubject()}"
+                                                 styleClass="ui-button-raised ui-button-info"/>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdl_confirm_rem_subject" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Importante</strong>
+                    </div>
+                    <div class="card-body">
+                        <h:form id="frm_rem_subject">
+                            <center>
+                                <p class="card-text">Eliminará la materia / asignatura</p>
+                                <p><strong>#{grade_group_subject_school.subject_aux.subject_name}</strong></p>
+                                <br></br>
+                                <p class="card-text">Con el grado / grupo asignado</p>
+                                <p><strong>#{grade_group_subject_school.subject_aux.to_desc_gg}</strong></p>
+                            </center>
+                        </h:form>
+                        <center>
+                            <p class="card-text">¿Seguro de realizar la operación?.</p>
+
+                            <h:form>
+                                <p:commandButton styleClass="rounded-button ui-button-info"
+                                                 style="margin-right: 8px;"
+                                                 update=":tbl_subject :msg_alert"
+                                                 oncomplete="setTimeout(function() { $('#mdl_confirm_rem_subject').modal('hide'); }, 200);" 
+                                                 actionListener="#{grade_group_subject_school.remSubject()}"
+                                                 value="SI" icon="pi pi-check" iconPos="right"/>
+
+                                <p:commandButton styleClass="rounded-button ui-button-danger"
+                                                 onclick="$('#mdl_confirm_rem_subject').modal('hide');"
+                                                 value="NO" icon="pi pi-times" iconPos="right"/>
+                            </h:form>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdl_confirm_rem" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Importante</strong>
+                    </div>
+                    <div class="card-body">
+                        <h:form id="frm_rem_grade_goup">
+                            <p class="card-text">Eliminará el grado / grupo: <strong>#{grade_group_subject_school.grade_group_aux.to_desc}</strong></p>
+                        </h:form>
+                        <center>
+                            <p class="card-text">¿Seguro de realizar la operación?.</p>
+
+                            <h:form>
+                                <p:commandButton styleClass="rounded-button ui-button-info"
+                                                 style="margin-right: 8px;"
+                                                 update=":tbl_grade_group :msg_alert :frm_add_subject:advanced"
+                                                 oncomplete="setTimeout(function() { $('#mdl_confirm_rem').modal('hide'); }, 200);" 
+                                                 actionListener="#{grade_group_subject_school.remGradeGroup()}"
+                                                 value="SI" icon="pi pi-check" iconPos="right"/>
+
+                                <p:commandButton styleClass="rounded-button ui-button-danger"
+                                                 onclick="$('#mdl_confirm_rem').modal('hide');"
+                                                 value="NO" icon="pi pi-times" iconPos="right"/>
+                            </h:form>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>

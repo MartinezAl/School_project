@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Sistema escolar</title>
+        <meta charset="UTF-8" http-equiv="refresh" content="1000"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/customStyle.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    </h:head>
+    <h:body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="card">
+                        <div class="card-header">
+                            Gestión de grado y grupo
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Grado / Grupo
+                                        </div>
+                                        <div class="card-body">
+                                            <p:growl id="msg_alert" showDetail="true" />
+                                            <h:form id="frm_add_group">
+                                                <div class="form-group">
+                                                    <label for="formGroupExampleInput">Ingrese el grado</label>
+                                                    <p:spinner id="horizontalAfter" value="#{grade_group_subject_school.grade}" 
+                                                               buttons="horizontal-after" style="width: 100%;"
+                                                               upButtonStyleClass="ui-button-success" downButtonStyleClass="ui-button-danger"/>
+                                                </div><br></br>
+                                                <div class="form-group">
+                                                    <label for="formGroupExampleInput2">Ingresa el grupo</label>
+                                                    <p:inputText style="width: 100%;"
+                                                                 value="#{grade_group_subject_school.grade_group.grad_group}">
+                                                        <p:keyFilter regEx="/[a-zA-Z]/i"/>
+                                                    </p:inputText>
+                                                </div><br></br>
+                                                <div class="modal-footer">
+                                                    <p:commandButton value="Guardar" icon="pi pi-save"
+                                                                     actionListener="#{grade_group_subject_school.addGradeGroup()}"
+                                                                     update=":tbl_grade_group frm_add_group :msg_alert :frm_add_subject:advanced"
+                                                                     styleClass="ui-button-raised ui-button-info" />
+                                                </div>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Grupos registrados
+                                        </div>
+                                        <div class="card-body">
+                                            <h:form id="tbl_grade_group">
+                                                <p:dataTable var="grade_group" value="#{grade_group_subject_school.listGradeGroup}"
+                                                             rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
+                                                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             emptyMessage="No existe registros" size="small">
+
+                                                    <p:column headerText="Grado Grupo" filterBy="#{grade_group.to_desc}"
+                                                              filterMatchMode="contains" sortBy="#{grade_group.to_desc}"
+                                                              filterStyle="height: 30px; font-size: 90%;"
+                                                              style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                        <h:outputText value="#{grade_group.to_desc}"/>
+                                                    </p:column>
+
+                                                    <p:column headerText="opc"
+                                                              style="width: 15%; font-size: 80%; align-items: center; text-align: center">
+                                                        <p:commandButton icon="pi pi-users" id="btn_view_tea_gg" style="margin-right: 8px;"
+                                                                         oncomplete="$('#mdl_assi_tea_gra_gro').modal('show');"
+                                                                         actionListener="#{grade_group_subject_school.loadAssignedTeacherGradeGroup(grade_group)}"
+                                                                         styleClass="rounded-button ui-button-info" update=":frm_head_tea_gra_gro :tbl_assi_tea_gra_gro">
+                                                            <p:tooltip for="btn_view_tea_gg" value="Profesores asignados al grupo" showEffect="clip" hideEffect="fold"/>
+                                                        </p:commandButton>
+
+                                                        <p:commandButton icon="pi pi-trash" id="btn_rem_gr_gro"
+                                                                         actionListener="#{grade_group_subject_school.setbyGradeGroup(grade_group)}"
+                                                                         update=":frm_rem_grade_goup"
+                                                                         oncomplete="$('#mdl_confirm_rem').modal('show');"
+                                                                         styleClass="rounded-button ui-button-danger">
+                                                            <p:tooltip for="btn_rem_gr_gro" value="Eliminar grado grupo" showEffect="clip" hideEffect="fold"/>
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="card">
+                        <div class="card-header">
+                            Gestión de Materias / Asignaturas
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Alta de materia / asignatura
+                                        </div>
+                                        <div class="card-body">
+                                            <h:form id="frm_add_subject">
+                                                <div class="form-group">
+                                                    <label for="formGroupExampleInput2">Ingresa el nombre de la materia</label>
+                                                    <p:inputTextarea style="width: 100%;" autoResize="false"
+                                                                     value="#{grade_group_subject_school.subject.subject_name}"/>
+                                                </div><br></br>
+                                                <div class="form-group">
+                                                    <label for="formGroupExampleInput2">Asigne un grado / grupo</label><br></br>
+                                                    <p:selectOneMenu id="advanced" value="#{grade_group_subject_school.subject.id_grade_group}"
+                                                                     converter="#{countryConverter}" var="g_g" style="text-align: center; width: 100%;"
+                                                                     filter="true" filterMatchMode="contains">
+                                                        <f:selectItem itemValue="0" itemLabel=""/>
+                                                        <f:selectItems value="#{grade_group_subject_school.listGradeGroup}" var="gg"
+                                                                       itemLabel="#{gg.to_desc}" itemValue="#{gg.id_grade_group}"/>
+                                                        <p:column>
+                                                            <h:outputText value="#{g_g}"/>
+                                                        </p:column>
+                                                    </p:selectOneMenu>
+                                                </div><br></br>
+                                                <div class="modal-footer">
+                                                    <p:commandButton value="Guardar" icon="pi pi-save"
+                                                                     update="frm_add_subject :tbl_subject :msg_alert"
+                                                                     actionListener="#{grade_group_subject_school.addSubject()}"
+                                                                     styleClass="ui-button-raised ui-button-info" />
+                                                </div>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Materias / asignaturas registradas
+                                        </div>
+                                        <div class="card-body">
+                                            <h:form id="tbl_subject">
+                                                <p:dataTable var="subject" value="#{grade_group_subject_school.listSubject}"
+                                                             rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
+                                                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             emptyMessage="No existe registros" size="small" editable="true">
+
+                                                    <p:column headerText="Materia / Asignatura" filterBy="#{subject.subject_name}"
+                                                              filterMatchMode="contains" sortBy="#{subject.subject_name}"
+                                                              filterStyle="height: 30px; font-size: 90%;"
+                                                              style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                        <h:outputText value="#{subject.subject_name}"/>
+                                                    </p:column>
+
+                                                    <p:column headerText="Grado Grupo" filterBy="#{subject.to_desc_gg}"
+                                                              filterMatchMode="contains" sortBy="#{subject.to_desc_gg}"
+                                                              filterStyle="height: 30px; font-size: 90%;"
+                                                              style="width: 15%; font-size: 80%; align-items: center; text-align: center">
+                                                        <h:outputText value="#{subject.to_desc_gg}"/>
+                                                    </p:column>
+
+                                                    <p:column headerText="opc"
+                                                              style="width: 10%; font-size: 80%; align-items: center; text-align: center">
+                                                        <p:commandButton icon="pi pi-pencil" id="btn_upd_subject" style="margin-right: 8px;"
+                                                                         oncomplete="$('#mdl_confirm_upd_subject').modal('show');"
+                                                                         actionListener="#{grade_group_subject_school.setbySubject(subject)}"
+                                                                         styleClass="rounded-button ui-button-warning" update=":frm_upd_subject">
+                                                            <p:tooltip for="btn_upd_subject" value="Editar información de la materia / asignatura" showEffect="clip" hideEffect="fold"/>
+                                                        </p:commandButton>
+
+                                                        <p:commandButton icon="pi pi-trash" id="btn_rem_subject"
+                                                                         styleClass="rounded-button ui-button-danger" update=":frm_rem_subject"
+                                                                         oncomplete="$('#mdl_confirm_rem_subject').modal('show');"
+                                                                         actionListener="#{grade_group_subject_school.setbySubject(subject)}">
+                                                            <p:tooltip for="btn_rem_subject" value="Eliminar materia / asignatura" showEffect="clip" hideEffect="fold"/>
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ui:include src="view_system_modal/view_modal_grade_group_subject.xhtml"/>
+
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+    </h:body>
+    <div class="modal fade" id="mdl_conf_rem_assi_tea_gra_gro" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Importante</strong>
+                    </div>
+                    <div class="card-body">
+                        <h:form id="frm_rem_assi_tea_gra_gro">
+                            <center>
+                                <p class="card-text">Eliminará al profesor</p>
+                                <p><strong>#{grade_group_subject_school.gra_gro_tea.complete_name}</strong></p>
+                                <br></br>
+                                <p class="card-text">de su asignación con el grado / grupo</p>
+                                <p><strong>#{grade_group_subject_school.grade_group_aux.to_desc}</strong></p>
+                            </center>
+                        </h:form>
+                        <center>
+                            <p class="card-text">¿Seguro de realizar la operación?.</p>
+                            <h:form>
+                                <p:commandButton styleClass="rounded-button ui-button-info"
+                                                 style="margin-right: 8px;" update=":tbl_assi_tea_gra_gro :msg_assign_gg_t"
+                                                 oncomplete="setTimeout(function() { $('[id$=msg_assign_gg_t]').hide(2000);}, 3000);
+                                                 setTimeout(function() { $('#mdl_conf_rem_assi_tea_gra_gro').modal('hide');}, 200);"
+                                                 actionListener="#{grade_group_subject_school.remAssignedTeacherGradeGroup()}"
+                                                 value="SI" icon="pi pi-check" iconPos="right"/>
+
+                                <p:commandButton styleClass="rounded-button ui-button-danger"
+                                                 onclick="$('#mdl_conf_rem_assi_tea_gra_gro').modal('hide');"
+                                                 value="NO" icon="pi pi-times" iconPos="right"/>
+                            </h:form>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

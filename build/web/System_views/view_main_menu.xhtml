@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Sistema escolar</title>
+        <meta charset="UTF-8" http-equiv="refresh" content="1000"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/customStyle.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    </h:head>
+    <ui:include src="../templateHead/head_menu.xhtml" />
+    <h:body>
+        <div class="container">
+            <div class="card product">
+                <br></br>
+                <h:form id="form">
+                    <div class="card">
+                        <p:contentFlow value="#{menu_main_school.listMenuMain}" var="menu">
+                            <div class="alert alert-primary" style="text-align: center; font-size: 12px">
+                                #{menu.opc_desc_mod}</div>
+                            <p:graphicImage url="../img/#{menu.opc_image}" styleClass="content"/>
+                        </p:contentFlow>
+                    </div>
+                </h:form>
+                <br></br>
+            </div>
+        </div>
+
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+    </h:body>
+</html>

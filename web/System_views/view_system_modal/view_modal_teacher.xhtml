@@ -1,0 +1,391 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <div class="modal fade" id="mdl_confirm_rem" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Importante</strong>
+                    </div>
+                    <div class="card-body">
+                        <center>
+                            <h:form id="frm_rem_teacher">
+                                <p class="card-text">Eliminará el profesor(a): <strong>#{teacher_school.teacher_aux.complete_name}</strong></p>
+                            </h:form>
+
+                            <p class="card-text">¿Seguro de realizar la operación?.</p>
+
+                            <h:form>
+                                <p:commandButton styleClass="rounded-button ui-button-info"
+                                                 style="margin-right: 8px;"
+                                                 actionListener="#{teacher_school.remTeacher()}"
+                                                 oncomplete="setTimeout(function() {$('#mdl_confirm_rem').modal('hide');}, 500);"
+                                                 update=":tbl_teacher :msg_alert"
+                                                 value="SI" icon="pi pi-check" iconPos="right"/>
+
+                                <p:commandButton styleClass="rounded-button ui-button-danger"
+                                                 onclick="$('#mdl_confirm_rem').modal('hide');"
+                                                 value="NO" icon="pi pi-times" iconPos="right"/>
+                            </h:form>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdl_add_teacher" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h:form>
+                            Registro de nuevo profesor
+                            <p:commandButton icon="pi pi-times" update="frm_add_teacher" style="float: right;"
+                                             actionListener="#{teacher_school.clearFrmNewTeacher()}"
+                                             oncomplete="$('#mdl_add_teacher').modal('hide');"
+                                             styleClass="rounded-button ui-button-danger"/>
+                        </h:form>
+                    </div>
+                    <div class="card-body">
+                        <h:form id="frm_add_teacher">
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                                    <p:inputText placeholder="Ingrese el nombre completo" style="width: 100%"
+                                                 value="#{teacher_school.teacher.complete_name}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-building"></i></div>
+                                    <p:inputText placeholder="Ingresa la dirección" style="width: 100%"
+                                                 value="#{teacher_school.teacher.address}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-phone"></i></div>
+                                    <p:inputText placeholder="Ingresa el numero de teléfono" style="width: 100%"
+                                                 value="#{teacher_school.teacher.phone_number}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
+                                    <p:inputText placeholder="Ingresa el correo" style="width: 100%"
+                                                 value="#{teacher_school.teacher.email}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-id-card"></i></div>
+                                    <p:inputText placeholder="Ingresa el curp" style="width: 100%"
+                                                 value="#{teacher_school.teacher.curp}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-hashtag"></i></div>
+                                    <p:inputText placeholder="Ingresa el rfc" style="width: 100%"
+                                                 value="#{teacher_school.teacher.rfc}"/>
+                                </div>
+                            </div><br></br>
+
+                            <div class="modal-footer">
+                                <p:commandButton value="Guardar" icon="pi pi-save"
+                                                 actionListener="#{teacher_school.addTeacher()}"
+                                                 onclick="$('#process_request').modal('show');"
+                                                 update=":tbl_teacher frm_add_teacher :msg_alert"
+                                                 styleClass="ui-button-raised ui-button-info"
+                                                 oncomplete="setTimeout(function() {$('#mdl_add_teacher').modal('hide');}, 500);"/>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdl_upd_teacher" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h:form>
+                            Actualizar registro del profesor
+                            <p:commandButton icon="pi pi-times"
+                                             onclick="$('#mdl_upd_teacher').modal('hide');"
+                                             styleClass="rounded-button ui-button-danger"/>
+                        </h:form>
+                    </div>
+                    <div class="card-body">
+                        <h:form id="frm_upd_teacher">
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                                    <p:inputText placeholder="Ingrese el nombre completo" style="width: 100%"
+                                                 value="#{teacher_school.teacher_aux.complete_name}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-building"></i></div>
+                                    <p:inputText placeholder="Ingresa la dirección" style="width: 100%"
+                                                 value="#{teacher_school.teacher_aux.address}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-phone"></i></div>
+                                    <p:inputText placeholder="Ingresa el numero de teléfono" style="width: 100%"
+                                                 value="#{teacher_school.teacher_aux.phone_number}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
+                                    <p:inputText placeholder="Ingresa el correo" style="width: 100%"
+                                                 value="#{teacher_school.teacher_aux.email}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-id-card"></i></div>
+                                    <p:inputText placeholder="Ingresa el curp" style="width: 100%"
+                                                 value="#{teacher_school.teacher_aux.curp}"/>
+                                </div>
+                            </div><br></br>
+                            <div class="col-12 md:col-12">
+                                <div class="ui-inputgroup">
+                                    <div class="ui-inputgroup-addon"><i class="pi pi-hashtag"></i></div>
+                                    <p:inputText placeholder="Ingresa el rfc" style="width: 100%"
+                                                 value="#{teacher_school.teacher_aux.rfc}"/>
+                                </div>
+                            </div><br></br>
+
+                            <div class="modal-footer">
+                                <p:commandButton value="Actualizar" icon="pi pi-save"
+                                                 actionListener="#{teacher_school.updTeacher()}"
+                                                 onclick="$('#process_request').modal('show');"
+                                                 update=":tbl_teacher :msg_alert"
+                                                 oncomplete="setTimeout(function() {$('#mdl_upd_teacher').modal('hide');}, 500);"
+                                                 styleClass="ui-button-raised ui-button-info"/>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdl_assi_gg_tea" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h:form id="frm_head_ass_t">
+                            Administración para el profesor : 
+                            <strong><label>#{teacher_school.teacher_aux.complete_name}</label></strong>
+                            <p:commandButton icon="pi pi-times" style="float: right;"
+                                             onclick="$('#mdl_assi_gg_tea').modal('hide');"
+                                             styleClass="rounded-button ui-button-danger"/>
+                        </h:form>
+                    </div>
+                    <div class="card-body">
+                        <p:messages id="msg_assign_gg_t" showDetail="true" closable="true"></p:messages>
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <button class="nav-link active" id="nav-subject-tab" data-bs-toggle="tab" 
+                                        data-bs-target="#nav-subject" type="button" role="tab" 
+                                        aria-controls="nav-subject" aria-selected="false">
+                                    Materias / Asignaturas
+                                </button>
+
+                                <button class="nav-link" id="nav-grade-group-tab" data-bs-toggle="tab" 
+                                        data-bs-target="#nav-grade-group" type="button" role="tab"
+                                        aria-controls="nav-grade-group" aria-selected="true">
+                                    Grados / grupos
+                                </button>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane show active" id="nav-subject" role="tabpanel" 
+                                 aria-labelledby="nav-subject-tab">
+                                <br></br>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                Materias asignadas
+                                            </div>
+                                            <div class="card-body">
+                                                <h:form id="frm_subject_assigned">
+                                                    <p:dataTable var="subj_assigned" value="#{teacher_school.listAssignedSubject}"
+                                                                 rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
+                                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                 emptyMessage="No existe registros" size="small">
+
+                                                        <p:column headerText="Materia / asignatura" filterBy="#{subj_assigned.subject_name}"
+                                                                  filterMatchMode="contains" sortBy="#{subj_assigned.subject_name}"
+                                                                  filterStyle="height: 30px; font-size: 90%;"
+                                                                  style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                            <h:outputText value="#{subj_assigned.subject_name}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="Grado Grupo" filterBy="#{subj_assigned.to_desc_gg}"
+                                                                  filterMatchMode="contains" sortBy="#{subj_assigned.to_desc_gg}"
+                                                                  filterStyle="height: 30px; font-size: 90%;"
+                                                                  style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                            <h:outputText value="#{subj_assigned.to_desc_gg}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="opc"
+                                                                  style="width: 8%; font-size: 80%; align-items: center; text-align: center">
+                                                            <p:commandButton icon="pi pi-trash" id="btn_rem_subject"
+                                                                             update="frm_subject_assigned :frm_subject_by_assign"
+                                                                             actionListener="#{teacher_school.removeAssignSubjectTeacher(subj_assigned.id_subject)}"
+                                                                             styleClass="rounded-button ui-button-danger">
+                                                                <p:tooltip for="btn_rem_subject" value="Eliminar asignación" showEffect="clip" hideEffect="fold"/>
+                                                            </p:commandButton>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </h:form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                Materias por asignar
+                                            </div>
+                                            <div class="card-body">
+                                                <h:form id="frm_subject_by_assign">
+                                                    <p:dataTable var="subj_assign" value="#{teacher_school.listSubjectByAssign}"
+                                                                 rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
+                                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                 emptyMessage="No existe registros" size="small">
+
+                                                        <p:column headerText="Materia / asignatura" filterBy="#{subj_assign.subject_name}"
+                                                                  filterMatchMode="contains" sortBy="#{subj_assign.subject_name}"
+                                                                  filterStyle="height: 30px; font-size: 90%;"
+                                                                  style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                            <h:outputText value="#{subj_assign.subject_name}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="Grado Grupo" filterBy="#{subj_assign.to_desc_gg}"
+                                                                  filterMatchMode="contains" sortBy="#{subj_assign.to_desc_gg}"
+                                                                  filterStyle="height: 30px; font-size: 90%;"
+                                                                  style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                            <h:outputText value="#{subj_assign.to_desc_gg}"/>
+                                                        </p:column>
+
+                                                        <p:column headerText="opc"
+                                                                  style="width: 8%; font-size: 80%; align-items: center; text-align: center">
+                                                            <p:commandButton icon="pi pi-save" id="btn_add_subject"
+                                                                             update=":frm_subject_assigned frm_subject_by_assign"
+                                                                             actionListener="#{teacher_school.assignSubjectTeacher(subj_assign)}"
+                                                                             styleClass="rounded-button ui-button-info">
+                                                                <p:tooltip for="btn_add_subject" value="Agregar materia / asignatura" showEffect="clip" hideEffect="fold"/>
+                                                            </p:commandButton>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </h:form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-grade-group" role="tabpanel" 
+                                 aria-labelledby="nav-grade-group-tab">
+                                <br></br>
+                                <div class="row">
+                                    <div class="col-sm-3">
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        Grupo(s) asignado(s)
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h:form id="frm_gg_asigned_t">
+                                                            <p:selectManyMenu id="advanced_1" value="#{teacher_school.listSelectedGradeGroupByRemove}"
+                                                                              converter="#{countryConverter}" scrollHeight="170"
+                                                                              var="c" filter="true" filterMatchMode="contains" 
+                                                                              showCheckbox="true" styleClass="manymenu-advanced">
+                                                                <f:selectItems value="#{teacher_school.listAssignedGradeGroup}" 
+                                                                               var="gg" itemLabel="#{gg.to_desc}"
+                                                                               itemValue="#{gg}"/>
+
+                                                                <p:column>
+                                                                    <h:outputText value="#{c.to_desc}"/>
+                                                                </p:column>
+                                                            </p:selectManyMenu>
+                                                            <br></br>
+                                                            <p:commandButton styleClass="ui-button-raised ui-button-danger"
+                                                                             value="Eliminar" style="float: right" icon="pi pi-trash"
+                                                                             update="frm_gg_asigned_t :frm_gg_asign_t :msg_assign_gg_t
+                                                                             :frm_subject_assigned :frm_subject_by_assign"
+                                                                             actionListener="#{teacher_school.removeAssignGradeGroupTeacher()}"
+                                                                             oncomplete="setTimeout(function() { $('[id$=msg_assign_gg_t]').hide(4000);}, 5000);"/>
+                                                        </h:form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        Grupo(s) por asignar
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h:form id="frm_gg_asign_t">
+                                                            <p:selectManyMenu id="advanced" value="#{teacher_school.listSelectedGradeGroupByAssign}"
+                                                                              converter="#{countryConverter}" scrollHeight="170"
+                                                                              var="c" filter="true" filterMatchMode="contains" 
+                                                                              showCheckbox="true" styleClass="manymenu-advanced">
+                                                                <f:selectItems value="#{teacher_school.listGradeGroupByAssign}" 
+                                                                               var="gg" itemLabel="#{gg.to_desc}"
+                                                                               itemValue="#{gg}"/>
+
+                                                                <p:column>
+                                                                    <h:outputText value="#{c.to_desc}"/>
+                                                                </p:column>
+                                                            </p:selectManyMenu>
+                                                            <br></br>
+                                                            <p:commandButton styleClass="ui-button-raised ui-button-info"
+                                                                             value="Asignar" style="float: right" icon="pi pi-save"
+                                                                             update="frm_gg_asigned_t :frm_gg_asign_t :msg_assign_gg_t
+                                                                             :frm_subject_assigned :frm_subject_by_assign"
+                                                                             actionListener="#{teacher_school.addToAssignGradeGroupTeacher()}"
+                                                                             oncomplete="setTimeout(function() { $('[id$=msg_assign_gg_t]').hide(2000);}, 3000);"/>
+                                                        </h:form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>
