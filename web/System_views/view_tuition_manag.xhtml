@@ -13,7 +13,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
     </h:head>
     <h:body>
-        <div class="container-fluid">
+        <style>
+            .cheap {
+                background-color: #09A9D8 !important;
+                background-image: none !important;
+                color: #ffffff !important;
+            }
+        </style>
+        <div class="container">
             <div class="card">
                 <div class="card-header">
                     Gestión de periodos (ciclos) escolares
@@ -21,17 +28,39 @@
                 <div class="card-body">
                     <p:growl id="msg_alert" showDetail="true" />
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <div class="card">
                                 <div class="card-header">
                                     Registra un periodo nuevo
                                 </div>
                                 <div class="card-body">
-
+                                    <h:form id="frm_add_tuition">
+                                        <div class="form-group">
+                                            <label for="formGroupExampleInput">Seleccione el periodo de inicio</label><br></br>
+                                            <p:datePicker id="period_init" view="month" value="#{tuition_school.period_init}"
+                                                          pattern="MM/yyyy" locale="es" mask="99/9999" style="width: 100%;"
+                                                          yearNavigator="true" yearRange="2000:2030" />
+                                        </div><br></br>
+                                        <div class="form-group">
+                                            <label for="formGroupExampleInput">Seleccione el periodo de cierre</label><br></br>
+                                            <p:datePicker id="period_final" view="month" value="#{tuition_school.period_final}"
+                                                          pattern="MM/yyyy" locale="es" mask="99/9999" style="width: 100%;"
+                                                          yearNavigator="true" yearRange="2000:2030" />
+                                        </div><br></br>
+                                        <div class="form-group">
+                                            <label for="formGroupExampleInput">Seleccione el monto</label><br></br>
+                                            <p:inputNumber id="input4" value="#{tuition_school.tuition.amount}"
+                                                           decimalPlaces="6" style="width: 100%;"/>
+                                        </div><br></br>
+                                        <div class="modal-footer">
+                                            <p:commandButton value="Abrir periodo" icon="pi pi-lock-open"
+                                                             styleClass="ui-button-raised ui-button-info" />
+                                        </div>
+                                    </h:form>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                             <div class="card">
                                 <div class="card-header">
                                     Periodos (Ciclos) registrados
@@ -41,13 +70,21 @@
                                         <p:dataTable var="tuition" value="#{tuition_school.listTuitions}"
                                                      rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
                                                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                     emptyMessage="No existe registros" size="small">
+                                                     emptyMessage="No existe registros" size="small"
+                                                     rowStyleClass="#{tuition.flag_active ? null : 'cheap'}">
 
-                                            <p:column headerText="Periodo" filterBy="#{tuition.to_periods}"
-                                                      filterMatchMode="contains" sortBy="#{tuition.to_periods}"
+                                            <p:column headerText="Inicio de periodo" filterBy="#{tuition.period_init}"
+                                                      filterMatchMode="contains" sortBy="#{tuition.period_init}"
                                                       filterStyle="height: 30px; font-size: 90%;"
                                                       style="width: 20%; font-size: 80%; align-items: center; text-align: center">
-                                                <h:outputText value="#{tuition.to_periods}"/>
+                                                <h:outputText value="#{tuition.period_init}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Cierre de periodo" filterBy="#{tuition.period_final}"
+                                                      filterMatchMode="contains" sortBy="#{tuition.period_final}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <h:outputText value="#{tuition.period_final}"/>
                                             </p:column>
 
                                             <p:column headerText="Monto" filterBy="#{tuition.amount}"
@@ -59,26 +96,28 @@
                                                 </h:outputText>
                                             </p:column>
 
-                                            <p:column headerText="Estatus" filterBy="#{tuition.flag_active}"
-                                                      filterMatchMode="contains" sortBy="#{tuition.flag_active}"
+                                            <p:column headerText="Estatus" filterBy="#{tuition.active_desc}"
+                                                      filterMatchMode="contains" sortBy="#{tuition.active_desc}"
                                                       filterStyle="height: 30px; font-size: 90%;"
                                                       styleClass="product-badge status-true"
-                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
-                                                <div class="alert alert-primary" role="alert"
-                                                     style="display: (#{tuition.flag_active} ? 'block' : 'none')">
-                                                    <h:outputText value="#{tuition.flag_active}"/>
-                                                </div>
-                                                <div class="alert alert-danger" role="alert"
-                                                     style="display: #{tuition.flag_active} != false ? 'block' : 'none'">
-                                                    <h:outputText value="#{tuition.flag_active}"/>
-                                                </div>
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center;">
+                                                <h:outputText value="#{tuition.active_desc}"/>
                                             </p:column>
 
-                                            <p:column headerText="opciones"
-                                                      style="width: 25%; font-size: 80%; align-items: center; text-align: center">
+                                            <p:column headerText="opción"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
                                                 <p:commandButton icon="pi pi-trash" id="btn_rem_tuition"
+                                                                 rendered="#{tuition.flag_active == false}"
                                                                  styleClass="rounded-button ui-button-danger">
-                                                    <p:tooltip for="btn_rem_tuition" value="Eliminar periodo" showEffect="clip" hideEffect="fold"/>
+                                                    <p:tooltip for="btn_rem_tuition" value="Eliminar periodo" 
+                                                               showEffect="clip" hideEffect="fold"/>
+                                                </p:commandButton>
+
+                                                <p:commandButton icon="pi pi-lock" id="btn_close_tuition"
+                                                                 rendered="#{tuition.flag_active == true}"
+                                                                 styleClass="rounded-button ui-button-help">
+                                                    <p:tooltip for="btn_close_tuition" value="Cerrar periodo" 
+                                                               showEffect="clip" hideEffect="fold"/>
                                                 </p:commandButton>
                                             </p:column>
                                         </p:dataTable>
@@ -93,5 +132,6 @@
 
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/bootstrap.js"></script>
+        <script src="../js/tuitionPeriod.js"></script>
     </h:body>
 </html>

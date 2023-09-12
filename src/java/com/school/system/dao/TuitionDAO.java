@@ -31,7 +31,10 @@ public class TuitionDAO {
             while (rst.next()) {
                 tuition = new TuitionModel(rst.getInt("id_tituition"),
                         rst.getDouble("amount"), rst.getString("period_init"),
-                        rst.getString("period_final"), rst.getBoolean("flag_active"));
+                        rst.getString("period_final"),
+                        (rst.getString("flag_active").equalsIgnoreCase("1")),
+                        (rst.getString("flag_active").equalsIgnoreCase("1") ? "Abierto" : "Cerrado")
+                );
                 listTuitions.add(tuition);
             }
         } catch (Exception e) {
