@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Sistema escolar</title>
+        <meta charset="UTF-8" http-equiv="refresh" content="1000"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/customStyle.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    </h:head>
+    <h:body>
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    Gestión de alumnos
+                </div>
+                <div class="card-body">
+                    <p:growl id="msg_alert" showDetail="true" />
+                    
+                    <h:form id="tbl_student">
+                        <p:dataTable var="teacher" value="#{teacher_school.listTeachers}"
+                                     rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     emptyMessage="No existe registros" size="small">
+
+                            <p:column headerText="opciones"
+                                      style="width: 25%; font-size: 80%; align-items: center; text-align: center">
+                                <p:commandButton icon="pi pi-cog" id="btn_manag_gr_gru_t" style="margin-right: 8px;"
+                                                 actionListener="#{teacher_school.loadGradeGroupByTeacher(teacher)}"
+                                                 oncomplete="$('#mdl_assi_gg_tea').modal('show');"
+                                                 update=":frm_gg_asign_t :frm_gg_asigned_t :frm_head_ass_t
+                                                 :frm_subject_assigned :frm_subject_by_assign"
+                                                 styleClass="rounded-button ui-button-help">
+                                    <p:tooltip for="btn_manag_gr_gru_t" value="Administración y configuración del profesor"
+                                               showEffect="clip" hideEffect="fold"/>
+                                </p:commandButton>
+
+                                <p:commandButton icon="pi pi-user-edit" id="btn_upd_teacher"
+                                                 styleClass="rounded-button ui-button-warning"
+                                                 update=":frm_upd_teacher" style="margin-right: 8px;"
+                                                 actionListener="#{teacher_school.setAsingTeacher(teacher)}"
+                                                 oncomplete="$('#mdl_upd_teacher').modal('show');">
+                                    <p:tooltip for="btn_upd_teacher" value="Actualizar información basica del profesor"
+                                               showEffect="clip" hideEffect="fold"/>
+                                </p:commandButton>
+
+                                <p:commandButton icon="pi pi-trash" id="btn_rem_teacher"
+                                                 update=":frm_rem_teacher"
+                                                 actionListener="#{teacher_school.setAsingTeacher(teacher)}"
+                                                 oncomplete="$('#mdl_confirm_rem').modal('show');"
+                                                 styleClass="rounded-button ui-button-danger">
+                                    <p:tooltip for="btn_rem_teacher" value="Eliminar el profesor" showEffect="clip" hideEffect="fold"/>
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column headerText="Profesor (a)" filterBy="#{teacher.complete_name}"
+                                      filterMatchMode="contains" sortBy="#{teacher.complete_name}"
+                                      filterStyle="height: 30px; font-size: 90%;"
+                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                <h:outputText value="#{teacher.complete_name}"/>
+                            </p:column>
+
+                            <p:column headerText="Dirección" filterBy="#{teacher.address}"
+                                      filterMatchMode="contains" sortBy="#{teacher.address}"
+                                      filterStyle="height: 30px; font-size: 90%;"
+                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                <h:outputText value="#{teacher.address}"/>
+                            </p:column>
+
+                            <p:column headerText="Teléfono" filterBy="#{teacher.phone_number}"
+                                      filterMatchMode="contains" sortBy="#{teacher.phone_number}"
+                                      filterStyle="height: 30px; font-size: 90%;"
+                                      style="width: 10%; font-size: 80%; align-items: center; text-align: center">
+                                <h:outputText value="#{teacher.phone_number}"/>
+                            </p:column>
+
+                            <p:column headerText="Correo" filterBy="#{teacher.email}"
+                                      filterMatchMode="contains" sortBy="#{teacher.email}"
+                                      filterStyle="height: 30px; font-size: 90%;"
+                                      style="width: 28%; font-size: 80%; align-items: center; text-align: center">
+                                <h:outputText value="#{teacher.email}"/>
+                            </p:column>
+
+                            <p:column headerText="CURP" filterBy="#{teacher.curp}"
+                                      filterMatchMode="contains" sortBy="#{teacher.curp}"
+                                      filterStyle="height: 30px; font-size: 90%;"
+                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                <h:outputText value="#{teacher.curp}"/>
+                            </p:column>
+
+                            <p:column headerText="RFC" filterBy="#{teacher.rfc}"
+                                      filterMatchMode="contains" sortBy="#{teacher.rfc}"
+                                      filterStyle="height: 30px; font-size: 90%;"
+                                      style="width: 10%; font-size: 80%; align-items: center; text-align: center">
+                                <h:outputText value="#{teacher.rfc}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+    </h:body>
+</html>

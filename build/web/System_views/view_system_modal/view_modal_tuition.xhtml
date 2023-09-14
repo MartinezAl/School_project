@@ -1,0 +1,78 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <div class="modal fade" id="mdl_confirm_rem" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Importante</strong>
+                    </div>
+                    <div class="card-body">
+                        <center>
+                            <h:form id="frm_rem_tuition">
+                                <p class="card-text">Eliminará el periodo: <strong>#{tuition_school.v_tuition.to_periods}</strong></p>
+                            </h:form>
+
+                            <p class="card-text">¿Seguro de realizar la operación?.</p>
+
+                            <h:form>
+                                <p:commandButton styleClass="rounded-button ui-button-info"
+                                                 style="margin-right: 8px;"
+                                                 actionListener="#{tuition_school.removeTuition()}"
+                                                 oncomplete="setTimeout(function() {$('#mdl_confirm_rem').modal('hide');}, 500);"
+                                                 update=":tbl_tuition :msg_alert"
+                                                 value="SI" icon="pi pi-check" iconPos="right"/>
+
+                                <p:commandButton styleClass="rounded-button ui-button-danger"
+                                                 onclick="$('#mdl_confirm_rem').modal('hide');"
+                                                 value="NO" icon="pi pi-times" iconPos="right"/>
+                            </h:form>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdl_confirm_cls_tuition" data-bs-backdrop="static" data-bs-keyboard="false" 
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Cierre de periodo</strong>
+                    </div>
+                    <div class="card-body">
+                        <center>
+                            <h:form id="frm_close_tuition">
+                                <p class="card-text">Cerrará el periodo: <strong>#{tuition_school.v_tuition.to_periods}</strong></p>
+                            </h:form>
+
+                            <p class="card-text">¿Seguro de realizar la operación?.</p>
+
+                            <h:form>
+                                <p:commandButton styleClass="rounded-button ui-button-info"
+                                                 style="margin-right: 8px;"
+                                                 actionListener="#{tuition_school.closePeriodTuition()}"
+                                                 oncomplete="setTimeout(function() {$('#mdl_confirm_cls_tuition').modal('hide');}, 500);"
+                                                 update=":tbl_tuition :msg_alert"
+                                                 value="SI" icon="pi pi-check" iconPos="right"/>
+
+                                <p:commandButton styleClass="rounded-button ui-button-danger"
+                                                 onclick="$('#mdl_confirm_cls_tuition').modal('hide');"
+                                                 value="NO" icon="pi pi-times" iconPos="right"/>
+                            </h:form>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>

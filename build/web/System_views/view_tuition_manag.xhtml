@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Sistema escolar</title>
         <meta charset="UTF-8" http-equiv="refresh" content="1000"/>
@@ -36,13 +37,13 @@
                                 <div class="card-body">
                                     <h:form id="frm_add_tuition">
                                         <div class="form-group">
-                                            <label for="formGroupExampleInput">Seleccione el periodo de inicio</label><br></br>
+                                            <label for="formGroupExampleInput">Seleccione fecha de inicio</label><br></br>
                                             <p:datePicker id="period_init" view="month" value="#{tuition_school.period_init}"
                                                           pattern="MM/yyyy" locale="es" mask="99/9999" style="width: 100%;"
                                                           yearNavigator="true" yearRange="2000:2030" />
                                         </div><br></br>
                                         <div class="form-group">
-                                            <label for="formGroupExampleInput">Seleccione el periodo de cierre</label><br></br>
+                                            <label for="formGroupExampleInput">Seleccione fecha de cierre</label><br></br>
                                             <p:datePicker id="period_final" view="month" value="#{tuition_school.period_final}"
                                                           pattern="MM/yyyy" locale="es" mask="99/9999" style="width: 100%;"
                                                           yearNavigator="true" yearRange="2000:2030" />
@@ -54,6 +55,8 @@
                                         </div><br></br>
                                         <div class="modal-footer">
                                             <p:commandButton value="Abrir periodo" icon="pi pi-lock-open"
+                                                             actionListener="#{tuition_school.addTuition()}"
+                                                             update="frm_add_tuition :tbl_tuition :msg_alert"
                                                              styleClass="ui-button-raised ui-button-info" />
                                         </div>
                                     </h:form>
@@ -106,15 +109,19 @@
 
                                             <p:column headerText="opción"
                                                       style="width: 20%; font-size: 80%; align-items: center; text-align: center">
-                                                <p:commandButton icon="pi pi-trash" id="btn_rem_tuition"
+                                                <p:commandButton icon="pi pi-trash" id="btn_rem_tuition" update=":frm_rem_tuition"
+                                                                 oncomplete="$('#mdl_confirm_rem').modal('show');"
                                                                  rendered="#{tuition.flag_active == false}"
+                                                                 actionListener="#{tuition_school.asingTuition(tuition)}"
                                                                  styleClass="rounded-button ui-button-danger">
                                                     <p:tooltip for="btn_rem_tuition" value="Eliminar periodo" 
                                                                showEffect="clip" hideEffect="fold"/>
                                                 </p:commandButton>
 
-                                                <p:commandButton icon="pi pi-lock" id="btn_close_tuition"
+                                                <p:commandButton icon="pi pi-lock" id="btn_close_tuition" update=":frm_close_tuition"
                                                                  rendered="#{tuition.flag_active == true}"
+                                                                 oncomplete="$('#mdl_confirm_cls_tuition').modal('show');"
+                                                                 actionListener="#{tuition_school.asingTuition(tuition)}"
                                                                  styleClass="rounded-button ui-button-help">
                                                     <p:tooltip for="btn_close_tuition" value="Cerrar periodo" 
                                                                showEffect="clip" hideEffect="fold"/>
@@ -129,6 +136,8 @@
                 </div>
             </div>
         </div>
+
+        <ui:include src="view_system_modal/view_modal_tuition.xhtml"/>
 
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/bootstrap.js"></script>
