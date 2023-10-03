@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Sistema escolar</title>
+        <meta charset="UTF-8" http-equiv="refresh" content="1000"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/customStyle.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    </h:head>
+    <h:body>
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    Datos generales del alumno
+                </div>
+                <h:form id="frm_add_registration">
+                    <div class="card-body">
+                        <p:growl id="msg_alert" showDetail="true" />
+                        <div class="row">
+                            <div class="col-3">
+                                <label>Nombre (s)</label><br></br>
+                                <p:inputText style="width: 100%;"
+                                             value="#{registration_school.student.complete_name}"/>
+                            </div>
+                            <div class="col-3">
+                                <label>Primer apellido</label><br></br>
+                                <p:inputText style="width: 100%;"
+                                             value="#{registration_school.student.first_name}"/>
+                            </div>
+                            <div class="col-3">
+                                <label>Segundo apellido</label><br></br>
+                                <p:inputText style="width: 100%;"
+                                             value="#{registration_school.student.second_name}"/>
+                            </div>
+                            <div class="col-3">
+                                <label>Dirección</label><br></br>
+                                <p:inputText style="width: 100%;"
+                                             value="#{registration_school.student.address}"/>
+                            </div>
+                        </div><br></br>
+                        <div class="row">
+                            <div class="col-2">
+                                <label>Fecha de nacimiento</label><br></br>
+                                <p:datePicker id="navigator" value="#{registration_school.birthdate}" 
+                                              monthNavigator="true" yearNavigator="true" showWeek="true" />
+                            </div>
+                            <div class="col-2">
+                                <label>Edad</label><br></br>
+                                <p:inputText style="width: 100%;"
+                                             value="#{registration_school.student.age}"/>
+                            </div>
+                            <div class="col-2">
+                                <label>Género</label><br></br>
+                                <p:selectOneMenu id="hideNoselectionOption" style="width: 100%;"
+                                                 value="#{registration_school.student.gender}">
+                                    <f:selectItem itemLabel="Seleciona el género" itemValue=""/>
+                                    <f:selectItem itemLabel="Hombre" itemValue="M"/>
+                                    <f:selectItem itemLabel="Mujer" itemValue="F"/>
+                                    <f:selectItem itemLabel="No aplica" itemValue="NA"/>
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="col-3">
+                                <label>Télefono</label><br></br>
+                                <p:inputMask style="width: 100%;" mask="999 999 9999"
+                                             value="#{registration_school.student.phone_number}"/>
+                            </div>
+                            <div class="col-3">
+                                <label>CURP</label><br></br>
+                                <p:inputText style="width: 100%;" counter="display" maxlength="18"
+                                             counterTemplate="{0} caracteres restantes."
+                                             value="#{registration_school.student.curp}"/>
+                                <h:outputText id="display" class="block" />
+                            </div>
+                        </div><br></br>
+                        <p:panel header="Datos generales del tutor" toggleable="true" toggleSpeed="500"
+                                 closeSpeed="500" widgetVar="panel">
+                            <div class="row">
+                                <div class="col-3">
+                                    
+                                </div>
+                            </div>
+                        </p:panel><br></br>
+                        <div class="modal-footer">
+                            <p:commandButton type="button" value="Registrar" icon="pi pi-save"
+                                             styleClass="ui-button-raised ui-button-info" />
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+        <script src="../js/tuitionPeriod.js"></script>
+
+    </h:body>
+</html>

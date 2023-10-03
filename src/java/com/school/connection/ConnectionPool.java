@@ -12,7 +12,7 @@ public class ConnectionPool {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/centro_escolar_priv?useSSL=false";
             String user = "root";
-            String pass = "<iostream>";
+            String pass = "";
             con = (Connection) DriverManager.getConnection(url, user, pass);
         } catch (Exception ex) {
             ex.printStackTrace();
