@@ -18,6 +18,11 @@ public class GradeGroupModel implements Serializable {
         this.grad_group = grad_group;
     }
 
+    public GradeGroupModel(String grade, String grad_group) {
+        this.grade = grade;
+        this.grad_group = grad_group;
+    }
+
     public int getId_grade_group() {
         return id_grade_group;
     }

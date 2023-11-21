@@ -15,12 +15,15 @@ public class StudentModel implements Serializable {
     private String birthdate;
     private String address;
     private String phone_number;
+    private String email;
     private String to_name_complete;
+    private GradeGroupModel grade_group;
+    private TutorModel tutor;
 
     public StudentModel() {
     }
 
-    public StudentModel(int id_student, int id_tutor, String complete_name, String first_name, String second_name, int age, String gender, String curp, String birthdate, String address, String phone_number, String to_name_complete) {
+    public StudentModel(int id_student, int id_tutor, String complete_name, String first_name, String second_name, int age, String gender, String curp, String birthdate, String address, String phone_number, String email) {
         this.id_student = id_student;
         this.id_tutor = id_tutor;
         this.complete_name = complete_name;
@@ -32,7 +35,24 @@ public class StudentModel implements Serializable {
         this.birthdate = birthdate;
         this.address = address;
         this.phone_number = phone_number;
-        this.to_name_complete = to_name_complete;
+        this.email = email;
+    }
+
+    public StudentModel(int id_student, int id_tutor, String complete_name, String first_name, String second_name, int age, String gender, String curp, String birthdate, String address, String phone_number, String email, GradeGroupModel grade_group, TutorModel tutor) {
+        this.id_student = id_student;
+        this.id_tutor = id_tutor;
+        this.complete_name = complete_name;
+        this.first_name = first_name;
+        this.second_name = second_name;
+        this.age = age;
+        this.gender = gender;
+        this.curp = curp;
+        this.birthdate = birthdate;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.email = email;
+        this.grade_group = grade_group;
+        this.tutor = tutor;
     }
 
     public int getId_student() {
@@ -127,8 +147,32 @@ public class StudentModel implements Serializable {
         this.age = age;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public GradeGroupModel getGrade_group() {
+        return grade_group;
+    }
+
+    public void setGrade_group(GradeGroupModel grade_group) {
+        this.grade_group = grade_group;
+    }
+
+    public TutorModel getTutor() {
+        return tutor;
+    }
+
+    public void setTutor(TutorModel tutor) {
+        this.tutor = tutor;
+    }
+
     @Override
     public String toString() {
-        return "StudentModel{" + "id_student=" + id_student + ", id_tutor=" + id_tutor + ", complete_name=" + complete_name + ", first_name=" + first_name + ", second_name=" + second_name + ", age=" + age + ", gender=" + gender + ", curp=" + curp + ", birthdate=" + birthdate + ", address=" + address + ", phone_number=" + phone_number + ", to_name_complete=" + to_name_complete + '}';
+        return "StudentModel{" + "id_student=" + id_student + ", id_tutor=" + id_tutor + ", complete_name=" + complete_name + ", first_name=" + first_name + ", second_name=" + second_name + ", age=" + age + ", gender=" + gender + ", curp=" + curp + ", birthdate=" + birthdate + ", address=" + address + ", phone_number=" + phone_number + ", email=" + email + ", grade_group=" + grade_group + ", tutor=" + tutor + '}';
     }
 }

@@ -2,8 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Sistema escolar</title>
         <meta charset="UTF-8" http-equiv="refresh" content="1000"/>
@@ -20,86 +20,57 @@
                 </div>
                 <div class="card-body">
                     <p:growl id="msg_alert" showDetail="true" />
-                    
-                    <h:form id="tbl_student">
-                        <p:dataTable var="teacher" value="#{teacher_school.listTeachers}"
-                                     rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
-                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     emptyMessage="No existe registros" size="small">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h:form id="tbl_student_params">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Filtros de búsqueda
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="field">
+                                            <p:outputLabel styleClass="block">Grado / Grupo</p:outputLabel>
+                                            <p:selectCheckboxMenu id="advanced"
+                                                                  filter="true" filterMatchMode="contains"
+                                                                  label="Grados / Grupos" multiple="true"
+                                                                  style="width: 100%;"
+                                                                  panelStyle="width: 15rem"
+                                                                  scrollHeight="250"
+                                                                  value="#{student_school.list_grade_group}">
+                                                <f:selectItems value="#{student_school.listDataGradeGroup}"/>
+                                                <p:ajax event="change" listener="#{student_school.setIdGradeGroup()}"/>
+                                            </p:selectCheckboxMenu>
+                                        </div><br></br>
 
-                            <p:column headerText="opciones"
-                                      style="width: 25%; font-size: 80%; align-items: center; text-align: center">
-                                <p:commandButton icon="pi pi-cog" id="btn_manag_gr_gru_t" style="margin-right: 8px;"
-                                                 actionListener="#{teacher_school.loadGradeGroupByTeacher(teacher)}"
-                                                 oncomplete="$('#mdl_assi_gg_tea').modal('show');"
-                                                 update=":frm_gg_asign_t :frm_gg_asigned_t :frm_head_ass_t
-                                                 :frm_subject_assigned :frm_subject_by_assign"
-                                                 styleClass="rounded-button ui-button-help">
-                                    <p:tooltip for="btn_manag_gr_gru_t" value="Administración y configuración del profesor"
-                                               showEffect="clip" hideEffect="fold"/>
-                                </p:commandButton>
+                                        <div class="field">
+                                            <p:outputLabel styleClass="block">Nombre de estudiante</p:outputLabel>
+                                            <p:inputText value="#{student_school.params.name_student}" style="width: 100%;"/>
+                                        </div><br></br>
 
-                                <p:commandButton icon="pi pi-user-edit" id="btn_upd_teacher"
-                                                 styleClass="rounded-button ui-button-warning"
-                                                 update=":frm_upd_teacher" style="margin-right: 8px;"
-                                                 actionListener="#{teacher_school.setAsingTeacher(teacher)}"
-                                                 oncomplete="$('#mdl_upd_teacher').modal('show');">
-                                    <p:tooltip for="btn_upd_teacher" value="Actualizar información basica del profesor"
-                                               showEffect="clip" hideEffect="fold"/>
-                                </p:commandButton>
+                                        <div class="field">
+                                            <p:outputLabel styleClass="block">Matricula</p:outputLabel>
+                                            <p:inputText value="#{student_school.params.tuition_number}" style="width: 100%;"/>
+                                        </div><br></br>
 
-                                <p:commandButton icon="pi pi-trash" id="btn_rem_teacher"
-                                                 update=":frm_rem_teacher"
-                                                 actionListener="#{teacher_school.setAsingTeacher(teacher)}"
-                                                 oncomplete="$('#mdl_confirm_rem').modal('show');"
-                                                 styleClass="rounded-button ui-button-danger">
-                                    <p:tooltip for="btn_rem_teacher" value="Eliminar el profesor" showEffect="clip" hideEffect="fold"/>
-                                </p:commandButton>
-                            </p:column>
+                                        <div class="field">
+                                            <p:outputLabel styleClass="block">Curp</p:outputLabel>
+                                            <p:inputText value="#{student_school.params.curp}" style="width: 100%;"/>
+                                        </div><br></br>
 
-                            <p:column headerText="Profesor (a)" filterBy="#{teacher.complete_name}"
-                                      filterMatchMode="contains" sortBy="#{teacher.complete_name}"
-                                      filterStyle="height: 30px; font-size: 90%;"
-                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
-                                <h:outputText value="#{teacher.complete_name}"/>
-                            </p:column>
+                                        <div class="modal-footer">
+                                            <p:commandButton value="Buscar" icon="pi pi-search"
+                                                             actionListener="#{student_school.initLoadDataStudent()}"
+                                                             update=":msg_alert"
+                                                             styleClass="ui-button-raised" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                        <div class="col-sm-9">
 
-                            <p:column headerText="Dirección" filterBy="#{teacher.address}"
-                                      filterMatchMode="contains" sortBy="#{teacher.address}"
-                                      filterStyle="height: 30px; font-size: 90%;"
-                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
-                                <h:outputText value="#{teacher.address}"/>
-                            </p:column>
-
-                            <p:column headerText="Teléfono" filterBy="#{teacher.phone_number}"
-                                      filterMatchMode="contains" sortBy="#{teacher.phone_number}"
-                                      filterStyle="height: 30px; font-size: 90%;"
-                                      style="width: 10%; font-size: 80%; align-items: center; text-align: center">
-                                <h:outputText value="#{teacher.phone_number}"/>
-                            </p:column>
-
-                            <p:column headerText="Correo" filterBy="#{teacher.email}"
-                                      filterMatchMode="contains" sortBy="#{teacher.email}"
-                                      filterStyle="height: 30px; font-size: 90%;"
-                                      style="width: 28%; font-size: 80%; align-items: center; text-align: center">
-                                <h:outputText value="#{teacher.email}"/>
-                            </p:column>
-
-                            <p:column headerText="CURP" filterBy="#{teacher.curp}"
-                                      filterMatchMode="contains" sortBy="#{teacher.curp}"
-                                      filterStyle="height: 30px; font-size: 90%;"
-                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
-                                <h:outputText value="#{teacher.curp}"/>
-                            </p:column>
-
-                            <p:column headerText="RFC" filterBy="#{teacher.rfc}"
-                                      filterMatchMode="contains" sortBy="#{teacher.rfc}"
-                                      filterStyle="height: 30px; font-size: 90%;"
-                                      style="width: 10%; font-size: 80%; align-items: center; text-align: center">
-                                <h:outputText value="#{teacher.rfc}"/>
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

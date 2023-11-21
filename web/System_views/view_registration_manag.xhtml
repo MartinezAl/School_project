@@ -16,23 +16,23 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    Datos generales del alumno
+                    Datos generales del alumno de nuevo ingreso
                 </div>
                 <h:form id="frm_add_registration">
                     <div class="card-body">
                         <p:growl id="msg_alert" showDetail="true" />
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-2">
                                 <label>Nombre (s)</label><br></br>
                                 <p:inputText style="width: 100%;"
                                              value="#{registration_school.student.complete_name}"/>
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                                 <label>Primer apellido</label><br></br>
                                 <p:inputText style="width: 100%;"
                                              value="#{registration_school.student.first_name}"/>
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                                 <label>Segundo apellido</label><br></br>
                                 <p:inputText style="width: 100%;"
                                              value="#{registration_school.student.second_name}"/>
@@ -41,6 +41,11 @@
                                 <label>Dirección</label><br></br>
                                 <p:inputText style="width: 100%;"
                                              value="#{registration_school.student.address}"/>
+                            </div>
+                            <div class="col-3">
+                                <label>Email</label><br></br>
+                                <p:inputText style="width: 100%;"
+                                             value="#{registration_school.student.email}"/>
                             </div>
                         </div><br></br>
                         <div class="row">
@@ -80,13 +85,35 @@
                         <p:panel header="Datos generales del tutor" toggleable="true" toggleSpeed="500"
                                  closeSpeed="500" widgetVar="panel">
                             <div class="row">
+                                <div class="col-2">
+                                    <label>Nombre (s)</label><br></br>
+                                    <p:inputText style="width: 100%;"
+                                                 value="#{registration_school.tutor_student.complete_name}"/>
+                                </div>
+                                <div class="col-2">
+                                    <label>Primer apellido</label><br></br>
+                                    <p:inputText style="width: 100%;"
+                                                 value="#{registration_school.tutor_student.first_name}"/>
+                                </div>
+                                <div class="col-2">
+                                    <label>Segundo apellido</label><br></br>
+                                    <p:inputText style="width: 100%;"
+                                                 value="#{registration_school.tutor_student.second_name}"/>
+                                </div>
                                 <div class="col-3">
-                                    
+                                    <label>Télefono</label><br></br>
+                                    <p:inputMask style="width: 100%;" mask="999 999 9999"
+                                                 value="#{registration_school.tutor_student.phone_number}"/>
+                                </div>
+                                <div class="col-3">
+                                    <label>Email</label><br></br>
+                                    <p:inputText style="width: 100%;"
+                                                 value="#{registration_school.tutor_student.email}"/>
                                 </div>
                             </div>
                         </p:panel><br></br>
                         <div class="modal-footer">
-                            <p:commandButton type="button" value="Registrar" icon="pi pi-save"
+                            <p:commandButton type="button" value="Inscribir" icon="pi pi-user"
                                              styleClass="ui-button-raised ui-button-info" />
                         </div>
                     </div>
