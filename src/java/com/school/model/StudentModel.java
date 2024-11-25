@@ -16,6 +16,7 @@ public class StudentModel implements Serializable {
     private String address;
     private String phone_number;
     private String email;
+    private String tuition_number;
     private String to_name_complete;
     private GradeGroupModel grade_group;
     private TutorModel tutor;
@@ -38,7 +39,7 @@ public class StudentModel implements Serializable {
         this.email = email;
     }
 
-    public StudentModel(int id_student, int id_tutor, String complete_name, String first_name, String second_name, int age, String gender, String curp, String birthdate, String address, String phone_number, String email, GradeGroupModel grade_group, TutorModel tutor) {
+    public StudentModel(int id_student, int id_tutor, String complete_name, String first_name, String second_name, int age, String gender, String curp, String birthdate, String address, String phone_number, String email, String tuition_number, GradeGroupModel grade_group, TutorModel tutor) {
         this.id_student = id_student;
         this.id_tutor = id_tutor;
         this.complete_name = complete_name;
@@ -51,10 +52,10 @@ public class StudentModel implements Serializable {
         this.address = address;
         this.phone_number = phone_number;
         this.email = email;
+        this.tuition_number = tuition_number;
         this.grade_group = grade_group;
         this.tutor = tutor;
     }
-
     public int getId_student() {
         return id_student;
     }
@@ -171,8 +172,16 @@ public class StudentModel implements Serializable {
         this.tutor = tutor;
     }
 
+    public String getTuition_number() {
+        return tuition_number;
+    }
+
+    public void setTuition_number(String tuition_number) {
+        this.tuition_number = tuition_number;
+    }
+
     @Override
     public String toString() {
-        return "StudentModel{" + "id_student=" + id_student + ", id_tutor=" + id_tutor + ", complete_name=" + complete_name + ", first_name=" + first_name + ", second_name=" + second_name + ", age=" + age + ", gender=" + gender + ", curp=" + curp + ", birthdate=" + birthdate + ", address=" + address + ", phone_number=" + phone_number + ", email=" + email + ", grade_group=" + grade_group + ", tutor=" + tutor + '}';
+        return "StudentModel{" + "id_student=" + id_student + ", id_tutor=" + id_tutor + ", complete_name=" + complete_name + ", first_name=" + first_name + ", second_name=" + second_name + ", age=" + age + ", gender=" + gender + ", curp=" + curp + ", birthdate=" + birthdate + ", address=" + address + ", phone_number=" + phone_number + ", email=" + email + ", tuition_number=" + tuition_number + ", to_name_complete=" + to_name_complete + ", grade_group=" + grade_group + ", tutor=" + tutor + '}';
     }
 }

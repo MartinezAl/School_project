@@ -73,7 +73,7 @@ public class StudentDAO {
                         rst.getString("complete_name"), rst.getString("first_name"),
                         rst.getString("second_name"), rst.getInt("age"), rst.getString("gender"),
                         rst.getString("curp"), rst.getString("birthdate"), rst.getString("address"),
-                        rst.getString("phone_number"), rst.getString("email"),
+                        rst.getString("phone_number"), rst.getString("email"), rst.getString("tuition_number"),
                         new GradeGroupModel(rst.getString("grade"), rst.getString("grad_group")),
                         new TutorModel(rst.getString("name_tutor"), rst.getString("first_name_tutor"),
                                 rst.getString("second_name_tutor"), rst.getString("email_tutor"),

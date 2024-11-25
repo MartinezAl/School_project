@@ -43,7 +43,7 @@
 
     <div class="modal fade" id="mdl_add_teacher" data-bs-backdrop="static" data-bs-keyboard="false" 
          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="card">
                     <div class="card-header">
@@ -52,64 +52,113 @@
                             <p:commandButton icon="pi pi-times" update="frm_add_teacher" style="float: right;"
                                              actionListener="#{teacher_school.clearFrmNewTeacher()}"
                                              oncomplete="$('#mdl_add_teacher').modal('hide');"
-                                             styleClass="rounded-button ui-button-danger"/>
+                                             styleClass="rounded-button ui-button-danger ui-button-flat"/>
                         </h:form>
                     </div>
-                    <div class="card-body">
-                        <h:form id="frm_add_teacher">
-                            <div class="col-12 md:col-12">
-                                <div class="ui-inputgroup">
-                                    <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
-                                    <p:inputText placeholder="Ingrese el nombre completo" style="width: 100%"
-                                                 value="#{teacher_school.teacher.complete_name}"/>
-                                </div>
-                            </div><br></br>
-                            <div class="col-12 md:col-12">
-                                <div class="ui-inputgroup">
-                                    <div class="ui-inputgroup-addon"><i class="pi pi-building"></i></div>
-                                    <p:inputText placeholder="Ingresa la dirección" style="width: 100%"
-                                                 value="#{teacher_school.teacher.address}"/>
-                                </div>
-                            </div><br></br>
-                            <div class="col-12 md:col-12">
-                                <div class="ui-inputgroup">
-                                    <div class="ui-inputgroup-addon"><i class="pi pi-phone"></i></div>
-                                    <p:inputText placeholder="Ingresa el numero de teléfono" style="width: 100%"
-                                                 value="#{teacher_school.teacher.phone_number}"/>
-                                </div>
-                            </div><br></br>
-                            <div class="col-12 md:col-12">
-                                <div class="ui-inputgroup">
-                                    <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
-                                    <p:inputText placeholder="Ingresa el correo" style="width: 100%"
-                                                 value="#{teacher_school.teacher.email}"/>
-                                </div>
-                            </div><br></br>
-                            <div class="col-12 md:col-12">
-                                <div class="ui-inputgroup">
-                                    <div class="ui-inputgroup-addon"><i class="pi pi-id-card"></i></div>
-                                    <p:inputText placeholder="Ingresa el curp" style="width: 100%"
-                                                 value="#{teacher_school.teacher.curp}"/>
-                                </div>
-                            </div><br></br>
-                            <div class="col-12 md:col-12">
-                                <div class="ui-inputgroup">
-                                    <div class="ui-inputgroup-addon"><i class="pi pi-hashtag"></i></div>
-                                    <p:inputText placeholder="Ingresa el rfc" style="width: 100%"
-                                                 value="#{teacher_school.teacher.rfc}"/>
-                                </div>
-                            </div><br></br>
+                    <h:form id="frm_add_teacher" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <div class="row">
+                                <center>
+                                    <p:graphicImage value="#{FacesContext.getCurrentInstance().getExternalContext()}/img/#{teacher_school.teacher.photo}"
+                                                    library="demo" width="42" id="photo_teacher"
+                                                    style="vertical-align: middle; width:150px; height:150px; border-radius:180px;"/><br></br>
 
+                                    <p:commandButton icon="pi pi-instagram" title="Tomar foto" 
+                                                     style="margin-right: 9px;"
+                                                     styleClass="rounded-button ui-button-info ui-button-flat" />
+
+                                    <p:commandButton icon="pi pi-image" title="Subir foto"
+                                                     onclick="moduleUploadPhoto(true);"
+                                                     styleClass="rounded-button ui-button-help ui-button-flat" />
+                                </center>
+                            </div>
+                            <div class="row">
+                                <div id="div_cam_photo" class="card-body" style="display: none;">
+
+                                    <p:commandButton  value="Cancelar elección de foto" style="float: right;"
+                                                      onclick="moduleUploadPhoto(false);"
+                                                      styleClass="ui-button-raised ui-button-danger" />
+
+                                    <div id="div_upload_photo" class="card-body" style="display: none;">
+                                        <p:fileUpload listener="#{teacher_school.handleImageUpload}"  
+                                                      mode="advanced" dragDropSupport="false" 
+                                                      update="photo_teacher @this"
+                                                      label="Elegir foto" uploadLabel="Cargar foto"
+                                                      cancelLabel="Cancelar"
+                                                      oncomplete="moduleUploadPhoto(false);"
+                                                      multiple="true" sizeLimit="10000000" fileLimit="1"
+                                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                                        <p:commandButton  value="Cancelar elección de foto" style="float: right;"
+                                                          onclick="moduleUploadPhoto(false);"
+                                                          styleClass="ui-button-raised ui-button-danger" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label>Nombre completo</label>
+                                        <p:inputText style="width: 100%" value="#{teacher_school.teacher.complete_name}"/>
+                                    </div>
+                                    <div class="col-4">
+                                        <label>Dirección</label>
+                                        <p:inputText style="width: 100%" value="#{teacher_school.teacher.address}"/>
+                                    </div>
+                                    <div class="col-4">
+                                        <label>Correo</label>
+                                        <p:inputText style="width: 100%"  value="#{teacher_school.teacher.email}"/>
+                                    </div>
+                                </div><br></br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label>Teléfono</label>
+                                        <p:inputText style="width: 100%" value="#{teacher_school.teacher.phone_number}"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <label>CURP</label>
+                                        <p:inputText style="width: 100%"  value="#{teacher_school.teacher.curp}"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <label>RFC</label>
+                                        <p:inputText style="width: 100%"  value="#{teacher_school.teacher.rfc}"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <label>Género</label>
+                                        <h:selectOneMenu class="form-control" value="#{teacher_school.teacher.gender}">
+                                            <f:selectItem itemLabel="Seleccione opción" itemValue=""/>
+                                            <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                            <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                                            <f:selectItem itemLabel="Indistinto" itemValue="N"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div><br></br>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label>Localidad</label>
+                                        <p:inputText style="width: 100%"  value="#{teacher_school.teacher.location}"/>
+                                    </div>
+                                    <div class="col-4">
+                                        <label>Fecha de nacimiento</label>
+                                        <p:inputMask value="#{teacher_school.teacher.birthdate}" mask="99/99/9999"/>
+                                    </div>
+                                    <div class="col-2">
+                                        <label>Edad</label>
+                                        <p:inputText style="width: 100%"  value="#{teacher_school.teacher.age}"/>
+                                    </div>
+                                    <div class="col-2">
+                                        <label>Código postal</label>
+                                        <p:inputText style="width: 100%"  value="#{teacher_school.teacher.postal_code}"/>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="modal-footer">
                                 <p:commandButton value="Guardar" icon="pi pi-save"
                                                  actionListener="#{teacher_school.addTeacher()}"
                                                  onclick="$('#process_request').modal('show');"
                                                  update=":tbl_teacher frm_add_teacher :msg_alert"
-                                                 styleClass="ui-button-raised ui-button-info"
+                                                 styleClass="ui-button-raised ui-button-info ui-button-flat"
                                                  oncomplete="setTimeout(function() {$('#mdl_add_teacher').modal('hide');}, 500);"/>
                             </div>
-                        </h:form>
-                    </div>
+                        </div>
+                    </h:form>
                 </div>
             </div>
         </div>

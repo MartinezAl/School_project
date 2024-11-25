@@ -16,7 +16,7 @@
                             Profesores asignados al grado / grupo : <strong>#{grade_group_subject_school.grade_group_aux.to_desc}</strong>
                             <p:commandButton icon="pi pi-times" style="float: right;"
                                              onclick="$('#mdl_assi_tea_gra_gro').modal('hide');"
-                                             styleClass="rounded-button ui-button-danger"/>
+                                             styleClass="rounded-button ui-button-danger ui-button-flat"/>
                         </h:form>
                     </div>
                     <div class="card-body">
@@ -75,7 +75,7 @@
                             Actualizar información de la materia / asignatura
                             <p:commandButton icon="pi pi-times" style="float: right;"
                                              onclick="$('#mdl_confirm_upd_subject').modal('hide');"
-                                             styleClass="rounded-button ui-button-danger"/>
+                                             styleClass="rounded-button ui-button-danger ui-button-flat"/>
                         </h:form>
                     </div>
                     <div class="card-body">
@@ -100,7 +100,7 @@
                                                  update=":tbl_subject :msg_alert"
                                                  oncomplete="setTimeout(function() { $('#mdl_confirm_upd_subject').modal('hide'); }, 200);"
                                                  actionListener="#{grade_group_subject_school.updSubject()}"
-                                                 styleClass="ui-button-raised ui-button-info"/>
+                                                 styleClass="ui-button-raised ui-button-info ui-button-flat"/>
                             </div>
                         </h:form>
                     </div>
@@ -131,16 +131,16 @@
                             <p class="card-text">¿Seguro de realizar la operación?.</p>
 
                             <h:form>
-                                <p:commandButton styleClass="rounded-button ui-button-info"
+                                <p:commandButton styleClass="ui-button-raised ui-button-info ui-button-flat"
                                                  style="margin-right: 8px;"
                                                  update=":tbl_subject :msg_alert"
                                                  oncomplete="setTimeout(function() { $('#mdl_confirm_rem_subject').modal('hide'); }, 200);" 
                                                  actionListener="#{grade_group_subject_school.remSubject()}"
-                                                 value="SI" icon="pi pi-check" iconPos="right"/>
+                                                 value="SI" icon="pi pi-check" iconPos="left"/>
 
-                                <p:commandButton styleClass="rounded-button ui-button-danger"
+                                <p:commandButton styleClass="ui-button-raised ui-button-danger ui-button-flat"
                                                  onclick="$('#mdl_confirm_rem_subject').modal('hide');"
-                                                 value="NO" icon="pi pi-times" iconPos="right"/>
+                                                 value="NO" icon="pi pi-times" iconPos="left"/>
                             </h:form>
                         </center>
                     </div>
@@ -165,16 +165,16 @@
                             <p class="card-text">¿Seguro de realizar la operación?.</p>
 
                             <h:form>
-                                <p:commandButton styleClass="rounded-button ui-button-info"
+                                <p:commandButton styleClass="ui-button-raised ui-button-info ui-button-flat"
                                                  style="margin-right: 8px;"
                                                  update=":tbl_grade_group :msg_alert :frm_add_subject:advanced"
                                                  oncomplete="setTimeout(function() { $('#mdl_confirm_rem').modal('hide'); }, 200);" 
                                                  actionListener="#{grade_group_subject_school.remGradeGroup()}"
-                                                 value="SI" icon="pi pi-check" iconPos="right"/>
+                                                 value="SI" icon="pi pi-check" iconPos="left"/>
 
-                                <p:commandButton styleClass="rounded-button ui-button-danger"
+                                <p:commandButton styleClass="ui-button-raised ui-button-danger ui-button-flat"
                                                  onclick="$('#mdl_confirm_rem').modal('hide');"
-                                                 value="NO" icon="pi pi-times" iconPos="right"/>
+                                                 value="NO" icon="pi pi-times" iconPos="left"/>
                             </h:form>
                         </center>
                     </div>

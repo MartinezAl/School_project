@@ -21,10 +21,10 @@
                 <div class="card-body">
                     <p:growl id="msg_alert" showDetail="true" />
                     <h:form>
-                        <p:commandButton value="Registrar un profesor"
+                        <p:commandButton value="Registrar profesor(a)"
                                          icon="pi pi-user-plus" style="float: right"
                                          onclick="$('#mdl_add_teacher').modal('show');"
-                                         styleClass="ui-button-raised ui-button-success" />
+                                         styleClass="ui-button-raised ui-button-flat" />
                     </h:form>
                     <h:form id="tbl_teacher">
                         <p:dataTable var="teacher" value="#{teacher_school.listTeachers}"
@@ -33,23 +33,30 @@
                                      emptyMessage="No existe registros" size="small">
 
                             <p:column headerText="opciones"
-                                      style="width: 25%; font-size: 80%; align-items: center; text-align: center">
+                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
                                 <p:commandButton icon="pi pi-cog" id="btn_manag_gr_gru_t" style="margin-right: 8px;"
                                                  actionListener="#{teacher_school.loadGradeGroupByTeacher(teacher)}"
                                                  oncomplete="$('#mdl_assi_gg_tea').modal('show');"
                                                  update=":frm_gg_asign_t :frm_gg_asigned_t :frm_head_ass_t
                                                  :frm_subject_assigned :frm_subject_by_assign"
-                                                 styleClass="rounded-button ui-button-help">
+                                                 styleClass="rounded-button ui-button-flat">
                                     <p:tooltip for="btn_manag_gr_gru_t" value="Administración y configuración del profesor"
                                                showEffect="clip" hideEffect="fold"/>
                                 </p:commandButton>
 
                                 <p:commandButton icon="pi pi-user-edit" id="btn_upd_teacher"
-                                                 styleClass="rounded-button ui-button-warning"
+                                                 styleClass="rounded-button ui-button-warning ui-button-flat"
                                                  update=":frm_upd_teacher" style="margin-right: 8px;"
                                                  actionListener="#{teacher_school.setAsingTeacher(teacher)}"
                                                  oncomplete="$('#mdl_upd_teacher').modal('show');">
-                                    <p:tooltip for="btn_upd_teacher" value="Actualizar información basica del profesor"
+                                    <p:tooltip for="btn_upd_teacher" value="Actualizar información básica del profesor"
+                                               showEffect="clip" hideEffect="fold"/>
+                                </p:commandButton>
+
+                                <p:commandButton icon="pi pi-info" id="btn_dtl_teacher"
+                                                 styleClass="rounded-button ui-button-info ui-button-flat"
+                                                 style="margin-right: 8px;">
+                                    <p:tooltip for="btn_dtl_teacher" value="Información a detalle del profesor"
                                                showEffect="clip" hideEffect="fold"/>
                                 </p:commandButton>
 
@@ -57,16 +64,20 @@
                                                  update=":frm_rem_teacher"
                                                  actionListener="#{teacher_school.setAsingTeacher(teacher)}"
                                                  oncomplete="$('#mdl_confirm_rem').modal('show');"
-                                                 styleClass="rounded-button ui-button-danger">
+                                                 styleClass="rounded-button ui-button-danger ui-button-flat">
                                     <p:tooltip for="btn_rem_teacher" value="Eliminar el profesor" showEffect="clip" hideEffect="fold"/>
                                 </p:commandButton>
                             </p:column>
 
-                            <p:column headerText="Profesor (a)" filterBy="#{teacher.complete_name}"
+                            <p:column headerText="Profesor(a)" filterBy="#{teacher.complete_name}"
                                       filterMatchMode="contains" sortBy="#{teacher.complete_name}"
                                       filterStyle="height: 30px; font-size: 90%;"
-                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
-                                <h:outputText value="#{teacher.complete_name}"/>
+                                      style="width: 25%; font-size: 80%; align-items: center; text-align: center">
+                                <p:graphicImage value="#{FacesContext.getCurrentInstance().getExternalContext()}/img/#{teacher.photo}"
+                                                library="demo" width="32"
+                                                style="vertical-align: middle; width:50px; height:50px; border-radius:100px;"/>
+                                <h:outputText style="vertical-align: middle; margin-left: .5rem;"
+                                              value="#{teacher.complete_name}"/>
                             </p:column>
 
                             <p:column headerText="Dirección" filterBy="#{teacher.address}"
@@ -113,5 +124,6 @@
 
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/bootstrap.js"></script>
+        <script src="../js/functionCustom.js"></script>
     </h:body>
 </html>

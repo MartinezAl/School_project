@@ -33,6 +33,8 @@ public class StudentContoller implements Serializable {
         list_grade_group = new ArrayList<>();
         listDataGradeGroup = new ArrayList<>();
         listGradeGroup = studentDAO.getListGradeGroup();
+        List<String> list_value_aux = new ArrayList<>();
+        params.setList_grade_group(list_value_aux);
         loadDataGradeGroup();
     }
 
@@ -42,6 +44,9 @@ public class StudentContoller implements Serializable {
         } else {
             listStudents = new ArrayList<>();
             listStudents = studentDAO.getListStudents(params);
+            if (listStudents.isEmpty()) {
+                viewMessageLaunch("No existe estudiante(s) con esos parametros de búsqueda", "Aviso ", "Warning");
+            }
         }
     }
 

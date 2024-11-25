@@ -68,7 +68,67 @@
                             </h:form>
                         </div>
                         <div class="col-sm-9">
+                            <div class="card">
+                                <div class="card-header">
+                                    Lista de estudiantes
+                                </div>
+                                <div class="card-body">
+                                    <h:form id="tbl_grade_group">
+                                        <p:dataTable var="student" value="#{student_school.listStudents}" 
+                                                     rowsPerPageTemplate="5,10,15" rows="5" paginator="true" paginatorPosition="top"
+                                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     emptyMessage="No existe registros" size="small">
 
+                                            <p:column headerText="Matrícula" filterBy="#{student.tuition_number}"
+                                                      filterMatchMode="contains" sortBy="#{student.tuition_number}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <h:outputText value="#{student.tuition_number}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Nombre" filterBy="#{student.to_name_complete}"
+                                                      filterMatchMode="contains" sortBy="#{student.to_name_complete}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <h:outputText value="#{student.to_name_complete}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Grado/Grupo" filterBy="#{student.grade_group.to_desc}"
+                                                      filterMatchMode="contains" sortBy="#{student.grade_group.to_desc}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <h:outputText value="#{student.grade_group.to_desc}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Curp" filterBy="#{student.curp}"
+                                                      filterMatchMode="contains" sortBy="#{student.curp}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <h:outputText value="#{student.curp}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Correo" filterBy="#{student.email}"
+                                                      filterMatchMode="contains" sortBy="#{student.email}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <h:outputText value="#{student.email}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Teléfono" filterBy="#{student.phone_number}"
+                                                      filterMatchMode="contains" sortBy="#{student.phone_number}"
+                                                      filterStyle="height: 30px; font-size: 90%;"
+                                                      style="width: 20%; font-size: 80%; align-items: center; text-align: center">
+                                                <h:outputText value="#{student.phone_number}"/>
+                                            </p:column>
+
+                                            <p:column headerText="opc"
+                                                      style="width: 15%; font-size: 80%; align-items: center; text-align: center">
+
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

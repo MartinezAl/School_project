@@ -351,14 +351,26 @@ public class TeacherDAO {
                 + "    phone_number,\n"
                 + "    email,\n"
                 + "    curp,\n"
-                + "    rfc\n"
+                + "    rfc,\n"
+                + "    birthdate,\n"
+                + "    age,\n"
+                + "    gender,\n"
+                + "    location,\n"
+                + "    postal_code,\n"
+                + "    photo\n"
                 + ") VALUES (\n"
                 + "    '" + teacher.getComplete_name() + "',\n"
                 + "    '" + teacher.getAddress() + "',\n"
                 + "    '" + teacher.getPhone_number() + "',\n"
                 + "    '" + teacher.getEmail() + "',\n"
                 + "    '" + teacher.getCurp() + "',\n"
-                + "    '" + teacher.getRfc() + "'\n"
+                + "    '" + teacher.getRfc() + "',\n"
+                + "    '" + teacher.getBirthdate() + "',\n"
+                + "    " + teacher.getAge() + ",\n"
+                + "    '" + teacher.getGender() + "',\n"
+                + "    '" + teacher.getLocation() + "',\n"
+                + "    " + teacher.getPostal_code() + ",\n"
+                + "    '" + teacher.getPhoto() + "'\n"
                 + ")";
         try {
             stm = con.startConnectionBD().createStatement();
@@ -391,7 +403,12 @@ public class TeacherDAO {
                 teacher = new TeacherModel(rst.getInt("id_teacher"),
                         rst.getString("complete_name"), rst.getString("address"),
                         rst.getString("phone_number"), rst.getString("email"),
-                        rst.getString("curp"), rst.getString("rfc"));
+                        rst.getString("curp"), rst.getString("rfc"),
+                        rst.getString("birthdate"), rst.getInt("age"),
+                        (rst.getString("gender") == null ? ""
+                        : (rst.getString("gender").equalsIgnoreCase("M") ? "Masculino"
+                        : (rst.getString("gender").equalsIgnoreCase("F") ? "Femenino" : "No aplica"))),
+                        rst.getString("location"), rst.getInt("postal_code"), rst.getString("photo"));
                 listTeachers.add(teacher);
             }
         } catch (Exception e) {

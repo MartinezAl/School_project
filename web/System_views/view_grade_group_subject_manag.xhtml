@@ -34,21 +34,21 @@
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput">Ingrese el grado</label>
                                                     <p:spinner id="horizontalAfter" value="#{grade_group_subject_school.grade}" 
-                                                               buttons="horizontal-after" style="width: 100%;"
+                                                               buttons="horizontal-after" style="width: 100%;" min="1"
                                                                upButtonStyleClass="ui-button-success" downButtonStyleClass="ui-button-danger"/>
                                                 </div><br></br>
                                                 <div class="form-group">
                                                     <label for="formGroupExampleInput2">Ingresa el grupo</label>
-                                                    <p:inputText style="width: 100%;"
+                                                    <p:inputText style="width: 100%;" onkeyup="this.value = this.value.toUpperCase()"
                                                                  value="#{grade_group_subject_school.grade_group.grad_group}">
-                                                        <p:keyFilter regEx="/[a-zA-Z]/i"/>
+                                                        <p:keyFilter regEx="/[A-Z]/i"/>
                                                     </p:inputText>
                                                 </div><br></br>
                                                 <div class="modal-footer">
                                                     <p:commandButton value="Guardar" icon="pi pi-save"
                                                                      actionListener="#{grade_group_subject_school.addGradeGroup()}"
                                                                      update=":tbl_grade_group frm_add_group :msg_alert :frm_add_subject:advanced"
-                                                                     styleClass="ui-button-raised ui-button-info" />
+                                                                     styleClass="ui-button-raised ui-button-info ui-button-flat" />
                                                 </div>
                                             </h:form>
                                         </div>
@@ -135,7 +135,7 @@
                                                     <p:commandButton value="Guardar" icon="pi pi-save"
                                                                      update="frm_add_subject :tbl_subject :msg_alert"
                                                                      actionListener="#{grade_group_subject_school.addSubject()}"
-                                                                     styleClass="ui-button-raised ui-button-info" />
+                                                                     styleClass="ui-button-raised ui-button-info ui-button-flat" />
                                                 </div>
                                             </h:form>
                                         </div>
@@ -200,42 +200,4 @@
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/bootstrap.js"></script>
     </h:body>
-    <div class="modal fade" id="mdl_conf_rem_assi_tea_gra_gro" data-bs-backdrop="static" data-bs-keyboard="false" 
-         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="card">
-                    <div class="card-header">
-                        <strong>Importante</strong>
-                    </div>
-                    <div class="card-body">
-                        <h:form id="frm_rem_assi_tea_gra_gro">
-                            <center>
-                                <p class="card-text">Eliminará al profesor</p>
-                                <p><strong>#{grade_group_subject_school.gra_gro_tea.complete_name}</strong></p>
-                                <br></br>
-                                <p class="card-text">de su asignación con el grado / grupo</p>
-                                <p><strong>#{grade_group_subject_school.grade_group_aux.to_desc}</strong></p>
-                            </center>
-                        </h:form>
-                        <center>
-                            <p class="card-text">¿Seguro de realizar la operación?.</p>
-                            <h:form>
-                                <p:commandButton styleClass="rounded-button ui-button-info"
-                                                 style="margin-right: 8px;" update=":tbl_assi_tea_gra_gro :msg_assign_gg_t"
-                                                 oncomplete="setTimeout(function() { $('[id$=msg_assign_gg_t]').hide(2000);}, 3000);
-                                                 setTimeout(function() { $('#mdl_conf_rem_assi_tea_gra_gro').modal('hide');}, 200);"
-                                                 actionListener="#{grade_group_subject_school.remAssignedTeacherGradeGroup()}"
-                                                 value="SI" icon="pi pi-check" iconPos="right"/>
-
-                                <p:commandButton styleClass="rounded-button ui-button-danger"
-                                                 onclick="$('#mdl_conf_rem_assi_tea_gra_gro').modal('hide');"
-                                                 value="NO" icon="pi pi-times" iconPos="right"/>
-                            </h:form>
-                        </center>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </html>
